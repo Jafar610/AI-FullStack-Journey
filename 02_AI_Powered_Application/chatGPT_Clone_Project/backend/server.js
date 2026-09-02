@@ -1,33 +1,22 @@
-import express from "express";
+import 'dotenv/config';
 
+import express from "express";
+import db from "./db/db.config.js";
 const server = express();
 
-function logged(req, res, next) {
-  const url = req.url;
-  const method = req.method;
-   console.log(url, method);
-   next();
+async function startServer() {
+  try {
+    const connection = await db.getConnection();
+    connection.release();
+    server.listen(3000, (err) => {
+      if(err) throw err;
+      console.log("Server is running on http://localhost:3000");
+    });
+
+  } catch (error) {
+    console.log('Error starting server', error.message)
+  }
 }
 
 
-function secondLogger(req, res, next){
-    console.log("This is a second logger");
-    next();
-}
-
-server.use('/dashboard', logged);
-
-server.get("/about",(req, res) => {
-  res.send("Hello Welcome!!");
-});
-
-
-
-server.get("/dashboard/index", (req, res) => {
-
-  res.send("Hello this is home page");
-});
-
-server.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
-});
+startServer();
