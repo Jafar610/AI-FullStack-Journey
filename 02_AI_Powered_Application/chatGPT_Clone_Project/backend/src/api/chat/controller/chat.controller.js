@@ -1,11 +1,17 @@
+import { errorHandler } from "../../../middleware/error-handler.js";
 import { createConversationService } from "../services/chat.service.js";
 
 export async function createConversationController(req, res){
    try {
-        const data = await createConversationService();
-        console.log(data);
+        const {question} = req.body;
+        const data = await createConversationService(question);
+        res.status(201).json({
+            status: true,
+            message: "create conversation api success",
+            result: data
+        })
    } catch (error) {
-    
+       throw error
    }
 }
 
