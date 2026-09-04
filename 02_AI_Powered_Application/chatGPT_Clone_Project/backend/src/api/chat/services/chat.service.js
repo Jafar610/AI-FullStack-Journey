@@ -39,6 +39,23 @@ const generateAssistantAnswer = async({historyRows, question})=>{
    }
 }
 
+const getMessageById = async messageId =>{
+  const [row] = await db.execute(
+    'SELECT id, role, content, token_count, created_at FROM conversations WHERE id = ? limit 1', [messageId]
+  )
+
+  if(!row[0]) return null;
+  return{
+    id: row[0].id,
+    role: row[0].role,
+    content: row[0].content,
+    tokenCount: Number(row[0].token_count || 0),
+    createdAt: row[0].created_at,
+  };
+};
+
+
+
 export async function createConversationService(question) {
   try {
     // validation
@@ -54,13 +71,25 @@ export async function createConversationService(question) {
       question,
     ]);
 
-    const assistantAnswer = await generateAssistantAnswer({
+    const {text, totalTokens} = await generateAssistantAnswer({
       historyRows, question
-    })
+    });
+
+
+   const [createAssistantMessageResult] = await db.execute(
+  "INSERT INTO conversations (role, content, token_count) VALUES (?,?,?)",
+  ['assistant', text ?? "", totalTokens ?? 0]
+);
+
+
+    const userConversation = await getMessageById(result.insertId);
+    const assistantConversation = await getMessageById(createAssistantMessageResult.insertId);
+
+
 
     return {
-        // historyRows
-        assistantAnswer
+       userConversation,
+       assistantConversation
     };
   } catch (error) {
     throw error;
