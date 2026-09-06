@@ -1,36 +1,66 @@
-import ChatHeader from "./Components/ChatHeader/ChatHeader"
-import MessageList from "./Components/MessageList/MessageList"
-import Sidebar from "./Components/Sidebar/Sidebar"
-import { useEffect, useState } from "react"
-import axios from 'axios'
+import ChatHeader from "./Components/ChatHeader/ChatHeader";
+import MessageList from "./Components/MessageList/MessageList";
+import Sidebar from "./Components/Sidebar/Sidebar";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import ChatInput from "./Components/ChatInput/ChatInput";
 function App() {
   const [conversations, setConversations] = useState([]);
-  async function fetchConversations(){
+  const [isLoading, setIsLoading] = useState(false);
+  async function fetchConversations() {
     try {
       const response = await axios.get(
-      'http://localhost:3000/api/chat/conversations'
-    );
-    console.log(response);
-    setConversations(response.data.data);
+        "http://localhost:3000/api/chat/conversations",
+      );
+
+      setConversations(response.data.data);
     } catch (error) {
       console.log(error.message);
     }
   }
 
+  async function handleSubmit(question) {
+    if (!question.trim()) {
+      return;
+    }
 
-  useEffect(()=>{
-     fetchConversations();
-  },[])
- 
+    const tempQuestion = {
+      id: Date.now(),
+      content: question.trim(),
+      role: "user",
+    };
+    setConversations((prev) => [...prev, tempQuestion]);
+    try {
+      setIsLoading(true);
+      const { data } = await axios.post(
+        "http://localhost:3000/api/chat/conversations",
+        {
+          question: question.trim(),
+        },
+      );
+
+      setConversations((prev) => [...prev, data?.data?.assistantConversation]);
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchConversations();
+  }, []);
+
   return (
     <div className="app">
-      <Sidebar/>
+      <Sidebar />
       <main className="chat">
-        <ChatHeader/>
-        <MessageList conversations={conversations}/>
+        <ChatHeader />
+        <MessageList conversations={conversations} isLoading={isLoading} />
+        <ChatInput handleSubmit={handleSubmit} />
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
