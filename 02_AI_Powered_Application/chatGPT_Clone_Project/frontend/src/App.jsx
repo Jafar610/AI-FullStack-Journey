@@ -1,12 +1,13 @@
 import ChatHeader from "./Components/ChatHeader/ChatHeader";
 import MessageList from "./Components/MessageList/MessageList";
 import Sidebar from "./Components/Sidebar/Sidebar";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ChatInput from "./Components/ChatInput/ChatInput";
 function App() {
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const lastMessageRef = useRef(null);
   async function fetchConversations() {
     try {
       const response = await axios.get(
@@ -41,7 +42,7 @@ function App() {
 
       setConversations((prev) => [...prev, data?.data?.assistantConversation]);
     } catch (error) {
-      throw error;
+       console.error(error.message);
     } finally {
       setIsLoading(false);
     }
@@ -51,12 +52,21 @@ function App() {
     fetchConversations();
   }, []);
 
+  useEffect(()=>{
+    lastMessageRef.current?.scrollIntoView({behavior:'smooth'});
+
+  },[conversations, lastMessageRef.current])
+
   return (
     <div className="app">
       <Sidebar />
       <main className="chat">
         <ChatHeader />
-        <MessageList conversations={conversations} isLoading={isLoading} />
+        <MessageList 
+         conversations={conversations}
+         isLoading={isLoading}
+         lastMessageRef={lastMessageRef}
+         />
         <ChatInput handleSubmit={handleSubmit} />
       </main>
     </div>

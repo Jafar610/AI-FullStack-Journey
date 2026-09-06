@@ -1,7 +1,7 @@
 import style from './MessageList.module.css'
 import ChatMessage from '../ChatMessage/ChatMessage'
 import {Bot} from 'lucide-react'
-function MessageList({isLoading, conversations}) {
+function MessageList({lastMessageRef, isLoading, conversations}) {
   return (
     <div className={style.message}>
       {
@@ -28,8 +28,8 @@ function MessageList({isLoading, conversations}) {
             </div>
           </div>
         )
-        
       }
+      <div ref={lastMessageRef}></div>
     </div>
   )
 }
