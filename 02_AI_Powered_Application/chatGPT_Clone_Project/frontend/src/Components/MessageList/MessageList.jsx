@@ -1,14 +1,14 @@
 import style from './MessageList.module.css'
-
+import ChatMessage from '../ChatMessage/ChatMessage'
 function MessageList({conversations}) {
   return (
-    <div>
+    <div className={style.messageList}>
       {
         conversations.length === 0? (
-          <div>What are you working on?</div>
+          <div className={style.empty}>What are you working on?</div>
         ): (
           conversations.map(msg=>(
-            <h1>{msg.content}</h1>
+            <ChatMessage key={msg.id} role = {msg.role} content = {msg.content} />
           ))
         )
       }

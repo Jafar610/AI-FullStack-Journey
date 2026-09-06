@@ -79,8 +79,71 @@
     font-size: 1.5em;
 }
 .markdownBody h3{
-    font-size: 1em;
+    font-size: 1.25em;
 }
-.markdownBody h4{
-    font-size: 0.5em;
+
+
+.markdownBody ul,
+.markdownBody ol{
+    margin-top: 8px;
+    margin-bottom: 16px;
+    padding-left: 2em;
 }
+
+.markdownBody li{
+    margin-bottom: 8px;
+}
+
+.markdownBody li > p{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.markdownBody a{
+    color: #3b82f6;
+    text-decoration: none;
+}
+
+.markdownBody a:hover{
+    text-decoration: underline;
+}
+
+.markdownBody blockquote{
+    margin: 0 0 16px 0;
+    padding: 0 1em;
+    color: var(--text-secondary);
+    border-left: 0.25em solid var(--border-color);
+}
+
+.markdownBody code{
+    padding: 0.2em 0.4em;
+    margin: 0;
+    font-size: 85%;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 6px;
+    font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Libration Mono, monospace;
+
+}
+
+.markdownBody pre {
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+    background-color: #0d0d0d;
+    border-radius: 6px;
+    margin-bottom: 16px;
+}
+
+.markdownBody pre code{
+    display: inline;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+}
+

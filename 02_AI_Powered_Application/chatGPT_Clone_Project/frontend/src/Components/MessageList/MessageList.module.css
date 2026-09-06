@@ -1,0 +1,76 @@
+.message {
+    flex: 1;
+    overflow: auto;
+    padding: 24px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.empty{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.loadingContainer{
+    display: flex;
+    padding: 0 24px;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    gap: 16px;
+}
+
+.loadingAvatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #10a37b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    padding: 12px 0;
+}
+
+.loadingDot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--text-secondary);
+    border-radius: 50%;
+    animation:pulse 1.5s infinite case-in-out;
+}
+
+.loadingDot:nthchild(2){
+    animation-delay: 0,2s;
+}
+
+.loadingDot:nth-child(3){
+    animation-delay: 0,4s;
+}
+
+@keyframes pulse{
+    0%,
+    100%{
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+}
