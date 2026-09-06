@@ -64,7 +64,6 @@ export async function createConversationService(question) {
       error.status = 400;
       throw error;
     }
-
     const historyRows = await getRecentConversations(5);
     // save data
     const [result] = await db.execute("INSERT INTO conversations (content, role) VALUES (?,'user')", [

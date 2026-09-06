@@ -4,7 +4,7 @@ import { createConversationService, getRecentConversations } from "../services/c
 export async function createConversationController(req, res) {
   try {
     const { question } = req.body;
-
+   
     const result = await createConversationService(question);
     res.status(201).json({
       status: true,

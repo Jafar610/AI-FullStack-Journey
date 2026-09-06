@@ -4,13 +4,14 @@ import express from "express";
 import db from "./db/db.config.js";
 import mainRouter from './src/api/main.routes.js'
 import { errorHandler } from './src/middleware/error-handler.js';
+import cors from 'cors'
+
 const server = express();
+server.use(cors({
+  origin:'http://localhost:5173'
+}));
 server.use(express.json());
 server.use('/api', mainRouter);
-
-server.get('api/chat/conversations', (req, res)=>{
-  res.send("get chat");
-});
 
 
 
