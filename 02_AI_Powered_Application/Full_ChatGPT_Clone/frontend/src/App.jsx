@@ -1,9 +1,10 @@
+import ChatInput from "./Components/ChatInput/ChatInput.jsx";
 import MessageList from "./Components/MessageList/MessageList.jsx";
 import Sidebar from "./Components/Sidebar/Sidebar.jsx";
 import { useState } from "react";
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [message, setMessage] = useState([]);
+  const [messages, setMessages] = useState([]);
   return (
 
     <>
@@ -12,8 +13,9 @@ function App() {
          toggleSidebar={()=>setIsSidebarOpen(!isSidebarOpen)}
          />
 
-         <div>
-            <MessageList message={message}/>
+         <div className="flex flex-col flex-1">
+            <MessageList message={messages}/>
+            <ChatInput setMessages={setMessages} messages={messages}/>
          </div>
       </div>
     </>
