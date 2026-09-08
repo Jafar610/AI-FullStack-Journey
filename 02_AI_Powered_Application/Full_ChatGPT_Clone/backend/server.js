@@ -2,6 +2,7 @@ import "dotenv/config";
 import db from "./db/db.config.js";
 import express from "express";
 import mainRoutes from "./src/main.routes.js";
+import errorHandler from "./src/middleware/errorHandler.js";
 const app = express();
 
 app.use(express.json());
@@ -18,7 +19,7 @@ app.post('/api/chat/conversations', (req, res)=>{
 
 
 
-
+app.use(errorHandler);
 
 const serverListener = async () => {
   try {
