@@ -18,7 +18,7 @@ function ChatInput({messages, setMessages}) {
 
     setMessages([...messages, userMessage, botMessage]);
     setInput("");
-    console.log(input);
+    
 
     }
 
@@ -32,7 +32,14 @@ function ChatInput({messages, setMessages}) {
                 </button>
                 <input type="text" placeholder='Ask anything' className='flex-1 outline-none bg-transparent placeholder-gray-400' value={input}  onChange={(e) => setInput(e.target.value)} />
                 <button className='bg-blue-500 p-2 rounded-full hover:bg-blue-600' onClick={submitHandler}>
-                    <ArrowUp size={20}/>
+                    
+                    {
+                        input.trim() === ''? (
+                            <Mic size={20}/>
+                        ):(
+                            <ArrowUp size={20}/>
+                        )
+                    }
                 </button >
             </div>
         </div>
