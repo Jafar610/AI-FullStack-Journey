@@ -2,7 +2,7 @@ import db from '../../../../db/db.config.js';
 import { GoogleGenAI } from '@google/genai';
 
 
-const getRecentConversations = async (limit = 5)=>{
+export const getRecentConversations = async (limit = 5)=>{
   try {
     const parse = Number.parseInt(limit, 10);
 
@@ -35,7 +35,10 @@ const generateAssistantAnswer = async(history, question) =>{
     message:question,
   })
   
-  return result;
+  return{
+    text: result.text,
+    totalTokens: result.usageMetadata.totalTokenCount
+  };
 }
 
 
@@ -66,25 +69,22 @@ export const createConversationsService = async (question)=>{
     // save data
     const [result] = await db.execute('INSERT INTO conversations (content) VALUES (?)', [question]);
 
-    const rowData = await getMessageById(result.insertId);
-    const assistantAnswer = await generateAssistantAnswer(history, question);
+
+    const {text, totalTokens} = await generateAssistantAnswer(history, question);
+
+    const [insertAssistantAnswer] = await db.execute(
+      'INSERT INTO conversations (role, content, token_count) VALUES (?,?,?) ', ['assistant', text ?? '', totalTokens ?? 0]
+    );
+
+     const rowData = await getMessageById(result.insertId);
+     const AssistantConversation = await getMessageById(insertAssistantAnswer.insertId)
     
     return{
-      // result,
-      // history,
-      // assistantAnswer
-
-      rowData
+      rowData,
+      AssistantConversation
     }
   }
   catch (error) {
     throw error
   }
-}
-
-
-
-
-export const getConversationsService=()=>{
- 
 }

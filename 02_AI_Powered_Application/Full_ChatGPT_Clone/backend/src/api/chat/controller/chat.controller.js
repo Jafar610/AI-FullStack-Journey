@@ -1,10 +1,10 @@
-import { createConversationsService, getConversationsService } from "../service/chat.service.js";
+import { createConversationsService, getRecentConversations } from "../service/chat.service.js";
 export const createConversationsController = async (req, res)=>{
    try {
      const {question} = req.body;
      const result = await createConversationsService(question);
     res.status(201).json({
-        status: true,
+        success: true,
         message: 'conversations create successfully',
         data: result
     })
@@ -23,10 +23,10 @@ export const createConversationsController = async (req, res)=>{
 
 export const getConversationsController = async (req, res)=>{
    try {
-     const result = await getConversationsService();
+     const result = await getRecentConversations(100);
 
      res.status(200).json({
-        status:true,
+        success:true,
         message:'Get conversations successfully',
         data: result
      })
