@@ -3,7 +3,7 @@ export const createConversationsController = async (req, res)=>{
    try {
      const {question} = req.body;
      const result = await createConversationsService(question);
-    res.status(200).json({
+    res.status(201).json({
         status: true,
         message: 'conversations create successfully',
         data: result
