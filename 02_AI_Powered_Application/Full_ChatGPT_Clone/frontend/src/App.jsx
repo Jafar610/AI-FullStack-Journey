@@ -1,12 +1,29 @@
+import axios from "axios";
 import ChatInput from "./Components/ChatInput/ChatInput.jsx";
 import MessageList from "./Components/MessageList/MessageList.jsx";
 import Sidebar from "./Components/Sidebar/Sidebar.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [messages, setMessages] = useState([]);
-  return (
+  const fetchChat = async ()=>{
+      try {
+        const result = await axios.get('http://localhost:3000/api/chat/conversations')
 
+      const data = result.data;
+      if(data.success){
+        console.log(data.data)
+      }
+      } catch (error) {
+        throw error;
+      }
+  }
+
+  useEffect(()=>{
+    fetchChat();
+  },[]);
+  return (
     <>
       <div className="flex h-screen bg-gray-800 text-white">
         <Sidebar isOpen = {isSidebarOpen}
