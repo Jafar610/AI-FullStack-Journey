@@ -65,23 +65,27 @@ export const createConversationsService = async (question)=>{
       error.status = 400;
       throw error;
     }
-     const history =  await getRecentConversations(5);
+
     // save data
     const [result] = await db.execute('INSERT INTO conversations (content) VALUES (?)', [question]);
 
 
+
+
+    const history =  await getRecentConversations(5);
+    
     const {text, totalTokens} = await generateAssistantAnswer(history, question);
 
     const [insertAssistantAnswer] = await db.execute(
       'INSERT INTO conversations (role, content, token_count) VALUES (?,?,?) ', ['assistant', text ?? '', totalTokens ?? 0]
     );
 
-     const rowData = await getMessageById(result.insertId);
-     const AssistantConversation = await getMessageById(insertAssistantAnswer.insertId)
+     const userConversation = await getMessageById(result.insertId);
+     const assistantConversation = await getMessageById(insertAssistantAnswer.insertId)
     
     return{
-      rowData,
-      AssistantConversation
+      userConversation,
+      assistantConversation
     }
   }
   catch (error) {

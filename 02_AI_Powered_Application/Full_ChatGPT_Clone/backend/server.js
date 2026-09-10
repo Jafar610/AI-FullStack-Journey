@@ -3,21 +3,13 @@ import db from "./db/db.config.js";
 import express from "express";
 import mainRoutes from "./src/main.routes.js";
 import errorHandler from "./src/middleware/errorHandler.js";
+import cors from 'cors';
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 // /api/chat
 app.use('/api', mainRoutes);
-
-
-app.post('/api/chat/conversations', (req, res)=>{
-    console.log('post api routes')
-});
-
-
-
-
 
 app.use(errorHandler);
 
