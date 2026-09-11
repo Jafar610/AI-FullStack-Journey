@@ -1,26 +1,37 @@
-import db from '../../../db/db.config.js'
-import bcrypt from 'bcrypt'
-export const registerUser = async({name, email, password})=>{
-    if(!name || !email || !password){
-        throw new Error('All Fields are required');
-    }
+import db from "../../../db/db.config.js";
+import bcrypt from "bcrypt";
 
-    const [existingUser] = db.execute(
-        'SELECT * FROM users WHERE email = ? ', [email]
-    );
+export const registerUser = async ({ name, email, password }) => {
+  if(!name?.trim() || !email?.trim() || !password) { 
+   const error = new Error("All fields are required");
+    error.status = 400;
+    throw error;
+}
 
-    if(existingUser.length > 0){
-        throw new Error('User already exist');
-    }
+  const existingUser = await db.execute("SELECT * FROM users WHERE email = ? ", [
+    email,
+  ]);
 
-    // hash the password
 
-    const hashPassword = await bcrypt.hash(password, 10);
+  if (existingUser.length > 0) {
+    const error =  new Error("User already exist");
+    error.status = 409;
+    throw error
+  }
 
-    //save
-    const [user] = await db.execute(
-        'INSERT INTO users (name, email, password) VALUES (?,?,?)',[name, email, hashPassword]
-    );
+  // hash the password
 
-    return user;
-}  
+  const hashPassword = await bcrypt.hash(password, 10);
+
+  //save
+  const [result] = await db.execute(
+    "INSERT INTO users (name, email, password) VALUES (?,?,?)",
+    [name, email, hashPassword],
+  );
+
+  return {
+    id: result.insertId,
+    name,
+    email,
+  };
+};
