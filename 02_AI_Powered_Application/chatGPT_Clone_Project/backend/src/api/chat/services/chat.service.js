@@ -3,7 +3,7 @@ import {GoogleGenAI} from '@google/genai'
 
 //select History
 export const getRecentConversations = async (limit = 5) => {
-  const NormalizationLimit = Number.parseInt(limit, 20);
+  const NormalizationLimit = Number.parseInt(limit, 10);
   const safeLimit =
     Number.isNaN(NormalizationLimit) || NormalizationLimit <= 0
       ? 20
@@ -18,6 +18,8 @@ export const getRecentConversations = async (limit = 5) => {
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || 'gemini-3.5-flash-lite';
 const geminiClient = new GoogleGenAI({apiKey:process.env.GEMINI_API_KEY});
+
+
 const generateAssistantAnswer = async({historyRows, question})=>{
   const formattedHistory = historyRows.map(row=>({
     role: row.role === 'assistant'?'model':'user',

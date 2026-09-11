@@ -3,6 +3,7 @@ import 'dotenv/config';
 import express from "express";
 import db from "./db/db.config.js";
 import mainRouter from './src/api/main.routes.js'
+import authRouter from './src/auth/auth.routes.js'
 import { errorHandler } from './src/middleware/error-handler.js';
 import cors from 'cors'
 
@@ -12,8 +13,7 @@ server.use(cors({
 }));
 server.use(express.json());
 server.use('/api', mainRouter);
-
-
+server.use('/auth', authRouter);
 
 server.use(errorHandler);
 
