@@ -8,6 +8,8 @@ function App() {
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const lastMessageRef = useRef(null);
+
+  
   async function fetchConversations() {
     try {
       const response = await axios.get(
@@ -30,6 +32,7 @@ function App() {
       content: question.trim(),
       role: "user",
     };
+    
     setConversations((prev) => [...prev, tempQuestion]);
     try {
       setIsLoading(true);
