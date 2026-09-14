@@ -1,0 +1,48 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.mainContainer{
+    width: 100%;
+}
+
+.contentWrapper{
+    width: 40%;
+    margin: 100px auto;
+    border: 1px solid gray;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+}
+
+h1{
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+.p1{
+    width: 70%;
+    margin: 10px auto;
+}
+
+input{
+    width: 60%;
+    padding: 8px;
+    margin: 5px 0;
+    outline: none;
+    font-size: 16px;
+}
+
+button{
+    width: 60%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 16px;
+}
+.p2{
+    font-size: 15px;
+}
+.p2 a{
+    color: white;
+}

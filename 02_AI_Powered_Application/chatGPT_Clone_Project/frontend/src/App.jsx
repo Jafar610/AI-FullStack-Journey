@@ -4,6 +4,7 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ChatInput from "./Components/ChatInput/ChatInput";
+import Login from "./pages/Login/Login";
 function App() {
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -62,7 +63,7 @@ function App() {
 
   return (
     <div className="app">
-      <Sidebar />
+      {/* <Sidebar />
       <main className="chat">
         <ChatHeader />
         <MessageList 
@@ -71,7 +72,9 @@ function App() {
          lastMessageRef={lastMessageRef}
          />
         <ChatInput handleSubmit={handleSubmit} />
-      </main>
+      </main> */}
+
+       <Login/>
     </div>
   );
 }
