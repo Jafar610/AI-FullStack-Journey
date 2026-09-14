@@ -1,5 +1,6 @@
-import React from 'react'
+import {useState} from 'react'
 import style from './login.module.css'
+
 function Login() {
   return (
     <div className={style.mainContainer}>
@@ -8,7 +9,6 @@ function Login() {
             <p className={style.p1}>Note that phone verification may be required for signup. Your number will only be used to verify your identitfy for security puporses.</p>
 
             <form >
-                <input type="text" name="" id="" placeholder='Your Name' /><br />
                 <input type="email" name="" id="" placeholder='Email Address'/><br />
                 <input type="password" name="" id="" placeholder='password' /><br />
                 <button>Continue</button>

@@ -4,7 +4,8 @@ import Sidebar from "./Components/Sidebar/Sidebar";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import ChatInput from "./Components/ChatInput/ChatInput";
-import Login from "./pages/Login/Login";
+import Login from "./pages/Login";
+import Registration from "./pages/Registration";
 function App() {
   const [conversations, setConversations] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -74,7 +75,8 @@ function App() {
         <ChatInput handleSubmit={handleSubmit} />
       </main> */}
 
-       <Login/>
+       {/* <Login/> */}
+       <Registration/>
     </div>
   );
 }
