@@ -46,3 +46,9 @@ button{
 .p2 a{
     color: white;
 }
+.errorMessage{
+    color: red;
+    opacity: 0.6;
+    text-align: center;
+    font-size: small;
+}
