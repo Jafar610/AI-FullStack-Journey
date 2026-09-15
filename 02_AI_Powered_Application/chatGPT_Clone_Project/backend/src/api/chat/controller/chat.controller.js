@@ -3,9 +3,9 @@ import { createConversationService, getRecentConversations } from "../services/c
 
 export async function createConversationController(req, res) {
   try {
-    const { question } = req.body;
+    const { question, userId } = req.body;
    
-    const result = await createConversationService(question);
+    const result = await createConversationService(question, userId);
     res.status(201).json({
       status: true,
       message: "create conversation api success",

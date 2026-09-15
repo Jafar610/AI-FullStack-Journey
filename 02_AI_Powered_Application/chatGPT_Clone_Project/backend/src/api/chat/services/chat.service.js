@@ -10,7 +10,8 @@ export const getRecentConversations = async (limit = 5) => {
       : NormalizationLimit;
 
   const [rows] = await db.execute(
-    `SELECT id, role, content, created_at FROM conversations ORDER BY id DESC limit ${safeLimit}`,
+    `SELECT id, role, content, created_at FROM conversations WHERE user_id = ?	
+  ORDER BY id  DESC limit ${safeLimit}`, [userId]
   );
 
   return rows.reverse();
@@ -56,9 +57,7 @@ const getMessageById = async messageId =>{
   };
 };
 
-
-
-export async function createConversationService(question) {
+export async function createConversationService(question, userId) {
   try {
     // validation
     if (!question.trim()) {
@@ -66,32 +65,29 @@ export async function createConversationService(question) {
       error.status = 400;
       throw error;
     }
-    const historyRows = await getRecentConversations(5);
+    const historyRows = await getRecentConversations(userId, 5);
     // save data
-    const [result] = await db.execute("INSERT INTO conversations (content, role) VALUES (?,'user')", [
-      question,
+    const [result] = await db.execute("INSERT INTO conversations (user_id,content, role) VALUES (?,?,'user')", [
+      userId, question
     ]);
 
     const {text, totalTokens} = await generateAssistantAnswer({
       historyRows, question
     });
 
-
    const [createAssistantMessageResult] = await db.execute(
-  "INSERT INTO conversations (role, content, token_count) VALUES (?,?,?)",
-  ['assistant', text ?? "", totalTokens ?? 0]
+  "INSERT INTO conversations (user_id, role, content, token_count) VALUES (?,?,?)",
+  [userId, 'assistant', text ?? "", totalTokens ?? 0]
 );
-
 
     const userConversation = await getMessageById(result.insertId);
     const assistantConversation = await getMessageById(createAssistantMessageResult.insertId);
-
-
 
     return {
        userConversation,
        assistantConversation
     };
+
   } catch (error) {
     throw error;
   }
