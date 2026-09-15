@@ -16,8 +16,9 @@ function Registration() {
     });
   };
 
+
   const submitHandler = async (e) => {
-    e.prevantDefault;
+     e.preventDefault();
     setError("");
 
     if (!form.name || !form.email || !form.password) {
@@ -31,6 +32,7 @@ function Registration() {
       if (res.data.success) {
         navigate("/login");
       }
+
     } catch (error) {
       const message = err.response?.data?.message || "Registration failed";
       setError(message);
@@ -66,7 +68,7 @@ function Registration() {
             name="email"
             id=""
             placeholder="Email Address"
-            nChange={handleChange}
+            onChange={handleChange}
             value={form.email}
           />
           <br />
@@ -75,7 +77,7 @@ function Registration() {
             name="password"
             id=""
             placeholder="password"
-            nChange={handleChange}
+            onChange={handleChange}
             value={form.password}
           />
           <br />
