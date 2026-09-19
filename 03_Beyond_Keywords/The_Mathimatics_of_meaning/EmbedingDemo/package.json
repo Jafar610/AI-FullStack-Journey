@@ -1,0 +1,17 @@
+{
+  "name": "embedingdemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "demo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "^2.23.0",
+    "dotenv": "^18.0.1"
+  }
+}
