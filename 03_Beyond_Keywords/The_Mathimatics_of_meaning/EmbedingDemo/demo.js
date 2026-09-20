@@ -4,14 +4,21 @@ import { GoogleGenAI } from "@google/genai";
 const ai = new GoogleGenAI({
   apiKey: process.env.GEMINI_API_KEY,
 });
-const response = await ai.models.embedContent({
- model: 'text-embedding-001',
- contents: [
-   'What is your name?',
-   'What is your favorite color?',
- ],
- config: {
-   outputDimensionality: 64,
- },
-});
-console.log(response);
+
+async function getEmbedding(text) {
+  const response = await ai.models.embedContent({
+    model: "embedding-001",
+    contents: [
+      {
+        role: "user",
+        parts: [{ text }]
+      }
+    ],
+    config: {
+      outputDimensionality: 64, // optional
+    },
+  });
+
+  return response.embeddings[0].values;
+ 
+}
