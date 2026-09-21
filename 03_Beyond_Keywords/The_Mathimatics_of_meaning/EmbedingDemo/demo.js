@@ -22,3 +22,4 @@ async function getEmbedding(text) {
   return response.embeddings[0].values;
  
 }
+console.log(embeddings.contents)
