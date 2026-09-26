@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
-
+import { errorHandler } from './src/middleware/errorHandler';
 const app = express();
 const port = process.env.PORT;
 
@@ -9,6 +9,7 @@ app.get('/health', (req, res)=>{
     res.json({message:'hello its working'})
 })
 
+app.use(errorHandler);
 const serverListener = async() =>{
     try {
         app.listen(port, (err)=>{
