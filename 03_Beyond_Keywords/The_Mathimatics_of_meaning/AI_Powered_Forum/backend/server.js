@@ -2,13 +2,12 @@ import 'dotenv/config';
 import express from 'express';
 import { errorHandler } from './src/middleware/errorHandler.js';
 import { db } from './db/config.js';
+import mainRoutes from './src/api/routes.js';
 const app = express();
 const port = process.env.PORT;
+app.use(express.json());
 
-
-app.get('/health', (req, res)=>{
-    res.json({message:'hello its working'})
-})
+app.use('/api', mainRoutes)
 
 app.use(errorHandler);
 const serverListener = async() =>{
