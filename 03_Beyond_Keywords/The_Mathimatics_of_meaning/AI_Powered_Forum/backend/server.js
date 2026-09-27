@@ -30,6 +30,7 @@ const serverListener = async() =>{
             'Faild to connect to the database. server is not started.',
             error.message
         )
+        process.exit(1);
     }
 }
 
