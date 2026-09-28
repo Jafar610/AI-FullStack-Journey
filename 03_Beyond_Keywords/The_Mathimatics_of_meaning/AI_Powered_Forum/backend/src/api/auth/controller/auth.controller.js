@@ -11,7 +11,7 @@ export const registerController = async (req, res, next) => {
       password,
     });
 
-    res.Status(
+    res.status(
       StatusCodes.CREATED.json({
         success: true,
         message: "user registered successfully.",

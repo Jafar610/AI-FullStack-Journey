@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 
-class customApiError extends error{
+
+class customApiError extends Error{
     constructor(message){
         super(message);
     }

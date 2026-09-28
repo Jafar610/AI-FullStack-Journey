@@ -2,15 +2,16 @@ import "dotenv/config";
 import { safeExecute } from "../../../../db/config.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { BadRequestError } from "../../../utils/errors/index.js";
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY;
 const EXPIRED_IN = process.env.EXPIRED_IN;
 
-const normalizeEmail = (email) => email.trim().toLowercase();
+const normalizeEmail = (email) => email.trim().toLowerCase();
 
 const checkUserExists = async (email) => {
-  const sql = "SELECT * user_id FROM users WHERE email = ? limit 1";
-  const rows = await safeExecute(sql, email);
+  const sql = "SELECT user_id FROM users WHERE email = ? LIMIT 1";
+  const rows = await safeExecute(sql, [email]);
   return rows.length > 0;
 };
 
@@ -31,7 +32,7 @@ export const registerService = async ({
   const hashedPassword = await bcrypt.hash(password, salt);
 
   const sql =
-    "INSERT INTO users (first_name, last_name, email, hash_password) VALUES (?,?,?,?)";
+    "INSERT INTO users (first_name, last_name, email, password_hash) VALUES (?,?,?,?)";
   let result;
   try {
     result = await safeExecute(sql, [

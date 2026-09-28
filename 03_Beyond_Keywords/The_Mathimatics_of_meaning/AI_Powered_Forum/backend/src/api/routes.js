@@ -2,6 +2,6 @@ import express from 'express'
 import authRoutes from './auth/routes/auth.routes.js';
 const mainRoutes = express.Router();
 
-mainRoutes.get('/auth', authRoutes);
+mainRoutes.use('/auth', authRoutes);
 
 export default mainRoutes
