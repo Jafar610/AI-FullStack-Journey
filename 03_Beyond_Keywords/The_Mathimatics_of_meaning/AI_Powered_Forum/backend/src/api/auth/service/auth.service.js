@@ -1,8 +1,7 @@
-import 'dotenv/config';
+import "dotenv/config";
 import { safeExecute } from "../../../../db/config.js";
 import bcrypt from "bcrypt";
-import jwt from 'jsonwebtoken';
-
+import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET_KEY;
 const EXPIRED_IN = process.env.EXPIRED_IN;
@@ -56,36 +55,37 @@ export const registerService = async ({
   };
 };
 
-const loginService = async({email, password})=>{
-    const normalizedEmail = normalizeEmail(email);
-    const sql = 'SELECT user_id, first_name, last_name, password_hash FROM users WHERE email = ? LIMIT = 1';
-    const rows = await safeExecute(sql, [normalizedEmail]);
+export const loginService = async ({ email, password }) => {
+  const normalizedEmail = normalizeEmail(email);
+  const sql =
+    "SELECT user_id, first_name, last_name, password_hash FROM users WHERE email = ? LIMIT = 1";
+  const rows = await safeExecute(sql, [normalizedEmail]);
 
-    if(rows.length === 0){
-        throw new UnauthenticatedError('Invalid email or password');
-    }
+  if (rows.length === 0) {
+    throw new UnauthenticatedError("Invalid email or password");
+  }
 
-    const user = rows[0];
-    const isMatch = await bcrypt.compare(password, user.password_hash);
-    if(!isMatch){
-        throw new UnauthenticatedError('Invalid email or password');
-    }
+  const user = rows[0];
+  const isMatch = await bcrypt.compare(password, user.password_hash);
+  if (!isMatch) {
+    throw new UnauthenticatedError("Invalid email or password");
+  }
 
-    const payload = {
-        id : user.id,
-        firstName:user.first_name,
-        lastName: user.last_name,
-    }
+  const payload = {
+    id: user.id,
+    firstName: user.first_name,
+    lastName: user.last_name,
+  };
 
- const token = jwt.sign(payload, JWT_SECRET, {expiresIn:EXPIRED_IN });
+  const token = jwt.sign(payload, JWT_SECRET, { expiresIn: EXPIRED_IN });
 
- return{
-    user:{
-        id:user.id,
-        firstName: user.first_name,
-        lastName: user.last_name,
-        email : user.email,
+  return {
+    user: {
+      id: user.id,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      email: user.email,
     },
-    token:token,
- }
-}
+    token: token,
+  };
+};

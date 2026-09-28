@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { registerService } from "../service/auth.service.js";
+import { registerService, loginService } from "../service/auth.service.js";
 export const registerController = async (req, res, next) => {
   try {
     const { firstName, lastName, email, password } = req.body;
@@ -24,7 +24,7 @@ export const registerController = async (req, res, next) => {
 };
 
 
-const loginController = async(req, res, next)=>{
+export const loginController = async(req, res, next)=>{
     try {
         const {email, password} = req.body;
         const authResult = await loginService({email, password});
