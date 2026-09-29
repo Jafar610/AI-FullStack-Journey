@@ -59,7 +59,7 @@ export const registerService = async ({
 export const loginService = async ({ email, password }) => {
   const normalizedEmail = normalizeEmail(email);
   const sql =
-    "SELECT user_id, first_name, last_name, password_hash FROM users WHERE email = ? LIMIT = 1";
+    "SELECT user_id, first_name, last_name, password_hash FROM users WHERE email = ? LIMIT 1";
   const rows = await safeExecute(sql, [normalizedEmail]);
 
   if (rows.length === 0) {
