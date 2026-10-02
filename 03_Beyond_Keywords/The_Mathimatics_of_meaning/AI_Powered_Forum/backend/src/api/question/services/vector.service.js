@@ -93,5 +93,7 @@ async function storeQuestionVector({
     console.error(`Status: ${status}`)
     console.error(`SQL:`,sql.trim().replace(/\s+/g,' '));
     console.error(`Status:`, error);
+    console.error(`=======================================`);
+    throw error
   }
 }

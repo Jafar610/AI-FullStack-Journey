@@ -69,7 +69,7 @@ const createQuestionWithVectorService = async payload =>{
             questionId: creationResult.id,
             sourceText,
             embedding:[],
-            status:false,
+            status:failed,
         }).catch(e => console.error('Failed to save failed status', e))
     }
 
