@@ -77,3 +77,32 @@ const createQuestionWithVectorService = async payload =>{
         question:creationResult
     }
 }
+
+
+const getQuestionService = async filters =>{
+    const normalizedLimit = 100;
+    const sortColumn = `Q.created_at`;
+    const normalizeSortOrder = `DESC`;
+
+    const {whereClause, params} = buildQuestionFilter(filters);
+
+    const listSQL = `
+        SELECT
+        q.question_id AS id,
+        q.question_hash AS questionHash,
+        q.title,
+        q.content,
+        q.created_at AS createdAt,
+        q.updated_at AS updatedAt,
+        u.user_id AS userId,
+        u.first_name AS firstName,
+        u.last_name AS lastName,
+        COUNT(DISTINCT a.aswer_id) AS answerCount
+        FROM Questions q
+        JOIN users u ON u.user_id = q.user_id
+        ${whereClause}
+        GROUP BY q.question_id, u.user_id
+        ORDER BY ${sortColumn} ${normalizeSortOrder}
+        LIMIT ${normalizedLimit}
+    `
+}
