@@ -133,5 +133,34 @@ const getQuestionService = async filters =>{
         GROUP BY q.question_id, u.user_id
         ORDER BY ${sortColumn} ${normalizeSortOrder}
         LIMIT ${normalizedLimit}
-    `
+    `;
+
+    const rows = await safeExecute(listSQL, params);
+
+    return{
+        data: rows.map(question=>({
+            id: question.id,
+            questionHash: question.questionHash,
+            title: question.title,
+            content: question.content,
+            answerCount: question.answerCount,
+            createdAt: question.createdAt,
+            updatedAt: question.updatedAt,
+            author:{
+                id: question.userId,
+                firstName: question.firstName,
+                lastName: question.lastName,
+            },
+
+        })),
+
+        meta:{
+            limit: normalizedLimit,
+            total: rows.lenght,
+            sortBy: 'Newest',
+            sortOrder: normalizeSortOrder,
+
+        }
+
+    }
 }
