@@ -1,6 +1,6 @@
 import {body, query} from 'express-validator';
 import {validationErrorHandler} from '../../../middleware/validation-handler.js'
-const getQuestionValidation = [
+export const getQuestionValidation = [
     query('search')
     .optional()
     .isString()
@@ -14,4 +14,28 @@ const getQuestionValidation = [
     .toBoolean(),
 
     validationErrorHandler,
-]
+];
+
+const searchSemanticQuestionValidation = [
+    query("Query")
+    .notEmpty()
+    .withMessage("query is required")
+    .isString()
+    .withMessage("query must be a string")
+    .isLength({min:5})
+    .withMessage("query must be at least 5 characters")
+    .trim(),
+    query('k')
+    .optional()
+    .isInt({min:1, max:20})
+    .withMessage('k must be between 1 to 20')
+    .toInt(),
+
+    query('threshold')
+    .optional()
+    .isFloat({min:0, max:1})
+    .withMessage('threshold must be between 0 and 1')
+    .toFloat(),
+    validationErrorHandler,
+];
+
