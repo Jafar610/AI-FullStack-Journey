@@ -1,9 +1,10 @@
 import express from 'express'
-import { createQuestionController } from '../controller/question.controller';
+import { createQuestionController, getQuestionController } from '../controller/question.controller';
+import {authenticateUser} from '../middleware/authentication.js'
+import { getQuestionValidation, searchSemanticQuestionValidation } from './question/validation/question.validation.js';
 const questionRouter = express.Router();
 
-questionRouter.post('/', createQuestionController)
+questionRouter.post('/', authenticateUser, createQuestionController);
 
-questionRouter = get('/', (req, res)=>{
-    res.send('Get request');
-})
+questionRouter.get('/',authenticateUser, getQuestionValidation, getQuestionController );
+questionRouter.get('/search', authenticateUser, searchSemanticQuestionValidation )

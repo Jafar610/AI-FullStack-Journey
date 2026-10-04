@@ -1,4 +1,6 @@
 import crypto from 'crypto'
+import { query } from 'express-validator';
+import { title } from 'process';
 
 const generateQuestionHash = () => crypto.randomBytes(8).toString('hex');
 
@@ -163,4 +165,26 @@ const getQuestionService = async filters =>{
         }
 
     }
+}
+
+const searchQuestionSemanticService = async({query, k=5, threshold})=>{
+    const sourceText = normalizeQuestionText({title:query});
+    const vectorConfig = getVectorConfig();
+    const searchThreshold = 
+    threshold === undefined ? threshold : vectorConfig.recomandThreshold;
+    const result = await findSimilarQuestionByText({
+        sourceText,
+        threshold:searchThreshold,
+        k,
+    });
+
+    return {
+        data : result.similarQuestions,
+        meta:{
+            query,
+            k,
+            threshold: searchThreshold,
+            Total: result.similarQuestions.lenght,
+        },
+    };
 }

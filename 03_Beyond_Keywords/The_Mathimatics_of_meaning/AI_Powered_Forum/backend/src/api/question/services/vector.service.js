@@ -97,3 +97,13 @@ async function storeQuestionVector({
     throw error
   }
 }
+
+
+
+
+function getVectorConfig(){
+  return{
+    recommendThreshold: RECOMMNED_THRESHOLD,
+    recommendK: RECOMMEND_K,
+  }
+}

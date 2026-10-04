@@ -19,7 +19,7 @@ export const createQuestionController = async (req, res, next) => {
   }
 };
 
-const getQuestionController = async (req, res, next) => {
+export const getQuestionController = async (req, res, next) => {
   try {
     const filter = {
       search: req.query.search,
@@ -38,3 +38,24 @@ const getQuestionController = async (req, res, next) => {
     next(error);
   }
 };
+
+const searchQuestionSemanticController = async(req, res, next)=>{
+  try {
+    const result = await searchQuestionSemanticService({
+      query: req.body.query,
+      k: req.query.k? Number(req.query.k):5,
+      threshold:
+      req.body.threshold === undefined
+      ? Number(req.query.threshold)
+      : undefined
+    });
+
+    res.status(StatusCodes.OK).json({
+      success:true,
+      message:'Semantic Search completed successfully',
+      ...result,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
