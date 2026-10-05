@@ -192,6 +192,53 @@ for(const stored of storedEmbedding){
   }
 }
 
+//sort by score 
+similarities.sort((a,b) => b.score - a.score);
+const topResult = similarities.slice(0, normalizedK);
+
+if(topResult.length === 0){
+  return{
+    ...embeddingResult,
+    similarQuestions: [],
+  };
+}
+
+//fetch question
+const questionIds = topResult.map(r=>r.questionId);
+const placeholders = questionIds.map(()=>'?').join(',');
+
+const sql = `
+  SELECT
+  q.question_id AS questionId,
+  q.question_hash AS questionHash,
+  q.title,
+  q.content,
+  q.created_at AS createdAt,
+  q.update_at AS updateAt,
+  u.user_id AS userId,
+  u.first_name AS firstName,
+  u.last_name AS lastName,
+  COUNT(DISTINCT a.answer_id) AS answerCount
+  FROM  questions q
+  JOIN users u ON u.user_id = q.user_id
+  LEFT JOIN answers a ON a.question_id = a.question_id
+  WHERE q.question_id IN (${placeholders})
+  GROUP BY q.question_id, u.user_id
+  
+`;
+
+let rows;
+try {
+  rows = await safeExecute(sql, questionIds);
+} catch (error) {
+  console.error('===DATABASE ERROR FETCHING QUESTION DETAILS===');
+  console.error('Operation: findSimilarQuestionByText - fetch detail');
+  console.error('Question IDs: ', questionIds);
+  console.error('Error: ', questionIds);
+  console.error('===================================');
+  throw error;
+}
+
 function getVectorConfig(){
   return{
     recommendThreshold: RECOMMNED_THRESHOLD,
