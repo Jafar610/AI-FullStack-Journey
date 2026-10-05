@@ -98,7 +98,43 @@ async function storeQuestionVector({
   }
 }
 
+async function findSimilarQuestionByText({sourceText, threshold, k}){
+  const normalizedK = k > 0 ? Math.min(k, 20) : RECOMMEND_K;
+  const normalizedThreshold = threshold > 0 && threshold < 1 ?
+  threshold : RECOMMNED_THRESHOLD;
 
+  let embeddingResult;
+  try{
+    embeddingResult = await generateQuestionEmbedding(sourceText,{
+      taskType:'RETRIVAL_QUERY'
+    });
+
+  }catch(error){
+    console.error('===GEMINI API ERROR DURING SEARCH ===');
+    console.error('Operation:findSimilarQuestionByText');
+    console.error(`Search Text:`, sourceText);
+    console.error(`Error:`, error);
+    console.error(`===============================`);
+    throw new serviceValidateError(`
+      Faild to generate embedding for search query. Please try again letter.
+      `);
+  }
+
+  const queryEmbedding = embeddingResult.embedding;
+
+  // retrive all ready embedding from mysql
+  let storedEmbedding;
+
+  try {
+    storedEmbedding = await retriveReadyEmbedding();
+  } catch (error) {
+    console.error('===DATABASE ERROR DURING SEARCH===');
+    console.error('Operation: finalSimilarQuestionByText');
+    console.error('Search Text: ',sourceText);
+    console.error('Error: ',error);
+
+  }
+}
 
 
 function getVectorConfig(){
