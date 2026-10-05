@@ -1,4 +1,5 @@
 import { json } from "express";
+import { safeExecute } from "../../../../db/config";
 
 function normalizeWhitespace(value) {
   return value.replace(/\s+/g, " ").trim();
@@ -98,10 +99,43 @@ async function storeQuestionVector({
   }
 }
 
+async function retriveReadyEmbedding(){
+  const sql = `
+  SELECT question_id, embedding FROM question_vectors  WHERE status = ?
+  `;
+try {
+  const rows = await safeExecute(sql, ['ready']);
+  const embedding = [];
+  for(const row of rows){
+    try {
+      const embedding = typeof row.embedding === 'string'
+      ? JSON.parse(row.embedding)
+      : row.embedding;
+
+      //Add valid embedding to results
+
+      embedding.push({
+        questionId: row.question_id,
+        embedding: embedding,
+      });
+
+    } catch (parseError) {
+      console.warn(
+        `Skipping question ${row.question_id}: failed to parse embedding JSON`,
+        parseError
+      );
+      continue;
+    }
+  }
+} catch (error) {
+  throw error;
+}
+
+}
+
 async function findSimilarQuestionByText({sourceText, threshold, k}){
-  const normalizedK = k > 0 ? Math.min(k, 20) : RECOMMEND_K;
-  const normalizedThreshold = threshold > 0 && threshold < 1 ?
-  threshold : RECOMMNED_THRESHOLD;
+  const normalizedK = k || RECOMMEND_K;
+  const normalizedThreshold = threshold || RECOMMNED_THRESHOLD;
 
   let embeddingResult;
   try{
@@ -136,6 +170,27 @@ async function findSimilarQuestionByText({sourceText, threshold, k}){
   }
 }
 
+//Calculate cosine similarity for each stored embedding.
+const similarities = [];
+for(const stored of storedEmbedding){
+  try {
+    const score = calculateCosineSimilarity(queryEmbedding, stored.embedding);
+
+    //Filter by threshold
+    if(score > normalizedThreshold){
+      similarities.push({
+        questionId: stored.questionId,
+        score: score,
+      });
+    }
+  } catch (error) {
+    console.warn(
+      `Failed to calculate similarity of question ${stored.questionId} : `,
+      error.message,
+    );
+    continue;
+  }
+}
 
 function getVectorConfig(){
   return{
