@@ -239,6 +239,26 @@ try {
   throw error;
 }
 
+
+// map mysql results to question objects
+const questionMap = {};
+rows.forEach(row=>{
+  questionMap[String[row.questionId]] = {
+    id: row.questionId,
+    questionHash: row.questionHash,
+    title: row.title,
+    answerCount: row.answerCount,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
+    author:{
+      id: row.userId,
+      firstName: row.firstName,
+      lastName: row.lastName
+    }
+  }
+})
+
+
 function getVectorConfig(){
   return{
     recommendThreshold: RECOMMNED_THRESHOLD,
