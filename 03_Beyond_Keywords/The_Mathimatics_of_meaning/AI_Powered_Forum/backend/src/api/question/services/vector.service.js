@@ -256,7 +256,21 @@ rows.forEach(row=>{
       lastName: row.lastName
     }
   }
-})
+});
+
+
+// Return results with scores preserving sort order
+const similarQuestions = topResult
+.filter(result=>questionMap[String(result.questionId)])
+.map(result=>({
+  score: Number(result.score.toFixed(6)),
+  ...questionMap[String(result.questionId)],
+}));
+
+return {
+  ...embeddingResult,
+  similarQuestions,
+}
 
 
 function getVectorConfig(){
