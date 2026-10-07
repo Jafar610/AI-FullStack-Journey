@@ -59,3 +59,18 @@ const searchQuestionSemanticController = async(req, res, next)=>{
     next(error);
   }
 }
+
+
+const getSingleQuestionController = async(req, res, next)=>{
+  try {
+    const {questionHash} = req.params;
+    const result = await getSingleQuestionService({
+      success: true,
+      message: 'Question fetched successfully',
+      ...result,
+    });
+
+  } catch (error) {
+    next(error);
+  }
+}
