@@ -7,4 +7,6 @@ const questionRouter = express.Router();
 questionRouter.post('/', authenticateUser, createQuestionController);
 
 questionRouter.get('/',authenticateUser, getQuestionValidation, getQuestionController );
-questionRouter.get('/search', authenticateUser, searchSemanticQuestionValidation )
+questionRouter.get('/search', authenticateUser, searchSemanticQuestionValidation );
+
+questionRouter.get('/:questionHash', authenticateUser, getSingleQuestionValidation, getSingleQuestionController )
