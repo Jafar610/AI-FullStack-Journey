@@ -9,6 +9,37 @@ function normalizeQuestionText({ title }) {
   return normalizeWhitespace(`${title || ""}`.normalize("NFKC").toLowerCase());
 }
 
+function calculateCosineSimilarity(vectorA, vectorB){
+  if(vectorA.length !== vectorB.length){
+    throw new Error(
+      `Vectors must have the same length. Got  ${vectorA.length} and ${vectorB.length} `,
+    );
+  }
+
+  let dotProduct = 0;
+  for(let i = 0; i < vectorA.length; i++){
+    dotProduct += vectorA[i] * vectorB[i];
+  }
+
+  //calculate the magnitude for vectorA 
+  let magnitudeA = 0;
+  for(let i = 0; i < vectorA.length; i++){
+    magnitudeA += vectorA[i] * vectorA[i]
+  }
+  magnitudeA = Math.sqrt(magnitudeA);
+
+  let magnitudeB = 0;
+  for(let i = 0; i < vectorB.length; i++){
+    magnitudeB += vectorB[i] * vectorB[i]
+  }
+magnitudeB =  Math.sqrt(magnitudeB);
+
+if(magnitudeA === 0 & magnitudeB === 0){
+  return 0;
+}
+
+}
+
 async function generateQuestionEmbedding(sourceText, options = {}) {
   const { taskType = "RETRIVAL_DOCUMENT", questionId = null } = options;
   try {
@@ -61,7 +92,7 @@ async function storeQuestionVector({
         updated_at = CURRENT_TIMESTAMP,
         `;
 
-    await safeExcute(sql, [
+    await safeExecute(sql, [
       questionId,
       sourceText,
       JSON.stringify([]),
