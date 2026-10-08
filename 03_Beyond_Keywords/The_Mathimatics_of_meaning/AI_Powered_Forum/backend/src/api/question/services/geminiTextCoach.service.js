@@ -9,6 +9,12 @@ const assessAnswerAgainstQuestionService = async({
     - note: one sentence, plain language, no markdown, under 200 characters. Frame as fit/relevance, not grading.`;
 
     try {
+        const row = await fetchBeminiJsonTextResponse(userPrompt);
+        const parsed = parseJsonObjectFromGeminiText(row);
+        const levelRow = parsed?.level;
+        const noteRow = parsed?.note;
+        const level = levelRow ==='strong' || levelRow ==='partial' || levelRow ==='weak' ? levelRow : 'partial';
+
         
     } catch (error) {
         
