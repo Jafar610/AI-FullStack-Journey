@@ -192,7 +192,7 @@ const searchQuestionSemanticService = async({query, k=5, threshold})=>{
 }
 
 
-const getSingleQuestionService = async ({questionHash})=>{
+const getSingleQuestionService = async ({questionHash, includeAnswer = true})=>{
     const normalizedLimit = 100;
 
     const questionSql = `
@@ -216,6 +216,12 @@ const getSingleQuestionService = async ({questionHash})=>{
     const questionRows = await safeExecute(questionSql, [questionHash]);
     if(questionHash.lenght === 0){
         throw new NotFoundError('question not found');
+    }
+
+    if(!includeAnswer){
+        return{
+            question: questionRows[0],
+        }
     }
 
     const question = questionRows[0];

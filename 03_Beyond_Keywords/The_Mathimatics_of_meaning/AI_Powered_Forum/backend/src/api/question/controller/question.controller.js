@@ -74,3 +74,27 @@ const getSingleQuestionController = async(req, res, next)=>{
     next(error);
   }
 }
+
+const assessAnswerAgainstQuestionController = async(req, res, next)=>{
+  try {
+    const {questionHash} = req.params;
+    const {answerText} = req.body;
+    const {question} = await getSingleQuestionService({
+      questionHash,
+      includeAnswer:false,
+    });
+    const data = await assessAnswerAgainstQuestionService({
+      questionTitle: question.title,
+      questionContent: question.content,
+      answerText,
+    });
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Answer fit assessed',
+      data,
+    });
+  } catch (error) {
+    next(error);
+  }
+}

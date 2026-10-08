@@ -1,4 +1,4 @@
-import {body, query} from 'express-validator';
+import {body, param, query} from 'express-validator';
 import {validationErrorHandler} from '../../../middleware/validation-handler.js'
 export const getQuestionValidation = [
     query('search')
@@ -45,6 +45,26 @@ const getSingleQuestionValidation = [
     .withMessage('Question hash is required')
     .matches(/^[a-f0-9]{16}$/)
     .withMessage('Question hash must be a 16-character lowercase hex string'),
+    validationErrorHandler
+];
+
+
+const assessAnswerAgainstQuestionValidation = [
+    param('questionHash')
+    .isString()
+    .withMessage('Question hash is required')
+    .matches(/^[a-f0-9]{16}$/)
+    .withMessage('Question hash must be a 16-character lowercase hex string'),
+
+    body('answerText')
+    .notEmpty()
+    .withMessage('Answer text is required')
+    .isString()
+    .withMessage('Answer text must be a string')
+    .isLength({min:20})
+    .withMessage('Answer text must be at least 20 character for a meaningful fit check')
+    .trim(),
+
     validationErrorHandler
 ]
 
