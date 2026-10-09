@@ -1,3 +1,22 @@
+function parseJsonObjectFromGeminiText(row){
+    if(!row || typeof row !== 'string') return null;
+
+    let t = row.trim();
+    if(t.startsWith('```')){
+        t = t.replace(/^```(?:json)?\s*/i, '').replace(/\s*$/i, '');
+    }
+
+    try {
+        const v = JSON.parse(t);
+        return v && typeof v === 'object' && !Array.isArray(v) ? v: null;
+    } catch (error) {
+        return null;
+    }
+}
+
+
+
+
 const assessAnswerAgainstQuestionService = async({
     questionTitle,
     questionContent,
@@ -9,7 +28,7 @@ const assessAnswerAgainstQuestionService = async({
     - note: one sentence, plain language, no markdown, under 200 characters. Frame as fit/relevance, not grading.`;
 
     try {
-        const row = await fetchBeminiJsonTextResponse(userPrompt);
+        const row = await fetchGeminiJsonTextResponse(userPrompt);
         const parsed = parseJsonObjectFromGeminiText(row);
         const levelRow = parsed?.level;
         const noteRow = parsed?.note;
