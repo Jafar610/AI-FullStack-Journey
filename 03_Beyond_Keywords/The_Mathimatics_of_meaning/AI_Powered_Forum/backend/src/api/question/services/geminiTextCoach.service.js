@@ -1,3 +1,6 @@
+// import genAi
+import {ServiceUnavailableError} from '../../../utils/errors/index'
+
 function parseJsonObjectFromGeminiText(row){
     if(!row || typeof row !== 'string') return null;
 
@@ -12,6 +15,12 @@ function parseJsonObjectFromGeminiText(row){
     } catch (error) {
         return null;
     }
+}
+
+async function fetchGeminiJsonTextResponse(userPrompt){
+    const result = await ai.generateContent(userPrompt);
+    const text = result?.response?.text?.();
+    return typeof text === 'string' ? text : '';
 }
 
 
