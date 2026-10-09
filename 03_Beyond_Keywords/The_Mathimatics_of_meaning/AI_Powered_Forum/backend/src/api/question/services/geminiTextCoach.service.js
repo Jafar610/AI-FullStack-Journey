@@ -18,8 +18,16 @@ function parseJsonObjectFromGeminiText(row){
 }
 
 async function fetchGeminiJsonTextResponse(userPrompt){
-    const result = await ai.generateContent(userPrompt);
-    const text = result?.response?.text?.();
+    const response = await ai.models.generateContent({
+        model: GEMINI_TEXT_MODEL,
+        contents: userPrompt,
+        config: {
+            maxOutputToken: 300,
+        },
+    });
+
+    console.log(response);
+    const text = response?.text;
     return typeof text === 'string' ? text : '';
 }
 
