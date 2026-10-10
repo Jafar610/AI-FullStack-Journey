@@ -98,3 +98,18 @@ const assessAnswerAgainstQuestionController = async(req, res, next)=>{
     next(error);
   }
 }
+
+const generateQuestionDraftCoachController = async (req, res, next) =>{
+  try {
+    const {title, content} = req.body;
+    const data = await generateQuestionDraftCoachService({title, content});
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      message: 'Draft suggestions generated',
+      date,
+    });
+  } catch (error) {
+    next(error);
+  }
+}

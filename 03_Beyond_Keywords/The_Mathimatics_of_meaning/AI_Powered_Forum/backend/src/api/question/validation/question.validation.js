@@ -65,7 +65,7 @@ const assessAnswerAgainstQuestionValidation = [
     .withMessage('Answer text must be at least 20 character for a meaningful fit check')
     .trim(),
 
-    validationErrorHandler
+    validationErrorHandler,
 ];
 
 const generateQuestionDraftCoachValidation = [
