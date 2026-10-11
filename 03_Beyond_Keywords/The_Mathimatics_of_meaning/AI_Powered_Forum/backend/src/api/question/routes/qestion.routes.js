@@ -13,3 +13,6 @@ questionRouter.get('/:questionHash', authenticateUser, getSingleQuestionValidati
 questionRouter.post('/:questionHash/answer-fit', authenticateUser, assessAnswerAgainstQuestionValidation, assessAnswerAgainstQuestionController);
 
 questionRouter.post('/draft-coatch', authenticateUser, generateQuestionDraftCoachValidation, generateQuestionDraftCoachController);
+
+
+export default questionRouter;
