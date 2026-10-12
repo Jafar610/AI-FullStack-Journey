@@ -12,3 +12,11 @@ const  createAnswerService = async({questionId, userId, content})=>{
 
     return getSingleAnswerService(result.insertId);
 }
+
+const getAnswerSortSql = sortBy =>{
+    if(sortBy === 'oldest'){
+        return `a.created_at ASC`;
+    }
+
+    return `a.created_at DESC`;
+}
