@@ -1,3 +1,20 @@
+const updateAnswerService = async({
+    answerId, userId, content
+})=>{
+    const asnwer = await getAnwerOwner (answerId);
+
+    if(asnwer.user_id !== userId){
+        throw new UnauthenticatedError(
+            `You are not authoriazed to update this anwers.`
+        )
+    }
+
+    await safeExecute(`
+        UPDATE answers SET content = ?, updated_at = CURRENT_TIMESTAMP WHERE answer_id = ?
+        `, [content, answerId]);
+        return getSingleAnswerService(answerId);
+}
+
 const  createAnswerService = async({questionId, userId, content})=>{
     const question = await getQuestionOwner(questionId);
     if(question.user_id === userId){
