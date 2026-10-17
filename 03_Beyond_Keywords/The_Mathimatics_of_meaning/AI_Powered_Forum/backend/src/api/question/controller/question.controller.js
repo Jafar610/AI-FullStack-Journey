@@ -1,4 +1,5 @@
 import { StatusCodes } from "http-status-codes";
+import { createQuestionWithVectorService } from "../services/question.service";
 
 export const createQuestionController = async (req, res, next) => {
   try {

@@ -6,7 +6,7 @@ import { NOTFOUND } from 'dns';
 
 const generateQuestionHash = () => crypto.randomBytes(8).toString('hex');
 
-const createQuestionWithVectorService = async payload =>{
+export const createQuestionWithVectorService = async payload =>{
     const {userId, title, content} = payload;
 
     const insertQuestionSql = 'INSERT INTO questions (question_hash, user_id, title, content) VALUES (?,?,?,?)';
@@ -20,7 +20,7 @@ const createQuestionWithVectorService = async payload =>{
         title,
         content
     ]);
-
+        
     } catch (error) {
         if(error?.code === 'ER_NO_REFERENCED_ROW_2'){
             throw new BadRequestError('User does not exist.');

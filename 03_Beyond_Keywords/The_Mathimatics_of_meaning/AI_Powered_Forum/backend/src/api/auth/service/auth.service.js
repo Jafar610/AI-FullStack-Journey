@@ -33,6 +33,7 @@ export const registerService = async ({
 
   const sql =
     "INSERT INTO users (first_name, last_name, email, password_hash) VALUES (?,?,?,?)";
+
   let result;
   try {
     result = await safeExecute(sql, [
@@ -55,6 +56,8 @@ export const registerService = async ({
     email: normalizedEmail,
   };
 };
+
+
 
 export const loginService = async ({ email, password }) => {
   const normalizedEmail = normalizeEmail(email);
