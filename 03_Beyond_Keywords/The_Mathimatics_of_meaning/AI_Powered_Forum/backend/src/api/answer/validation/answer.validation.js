@@ -1,7 +1,7 @@
 import {body, param, query} from 'express-validator';
 import { validationErrorHandler } from '../../../middleware/validation-handler';
 
-const createAnswerValidation = [
+export const createAnswerValidation = [
     body('questionId')
     .notEmpty()
     .withMessage('Question id is required')
@@ -14,7 +14,7 @@ const createAnswerValidation = [
     validationErrorHandler,
 ]
 
-const getAnswerValidation = [
+export const getAnswerValidation = [
     query('questionId')
     .notEmpty()
     .withMessage('QuestionId is required')

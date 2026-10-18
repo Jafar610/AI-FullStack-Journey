@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 
-const createAnswerController = async (req, res, next)=>{
+export const createAnswerController = async (req, res, next)=>{
     try {
         const {questionId, content} = req.body;
         const answer = await createAnswerService({
@@ -16,5 +16,9 @@ const createAnswerController = async (req, res, next)=>{
     } catch (error) {
         next(error);
     }
+}
+
+export const getAnswerController = async(req, res, next)=>{
+    
 }
 
