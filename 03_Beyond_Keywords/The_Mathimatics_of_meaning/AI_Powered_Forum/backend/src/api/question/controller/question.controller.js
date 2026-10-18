@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { createQuestionWithVectorService } from "../services/question.service";
+import { createQuestionWithVectorService, getQuestionService, searchQuestionSemanticService, getSingleQuestionService } from "../services/question.service";
 
 export const createQuestionController = async (req, res, next) => {
   try {
@@ -40,7 +40,7 @@ export const getQuestionController = async (req, res, next) => {
   }
 };
 
-const searchQuestionSemanticController = async(req, res, next)=>{
+export const searchQuestionSemanticController = async(req, res, next)=>{
   try {
     const result = await searchQuestionSemanticService({
       query: req.body.query,
@@ -62,7 +62,7 @@ const searchQuestionSemanticController = async(req, res, next)=>{
 }
 
 
-const getSingleQuestionController = async(req, res, next)=>{
+export const getSingleQuestionController = async(req, res, next)=>{
   try {
     const {questionHash} = req.params;
     const result = await getSingleQuestionService({
@@ -76,7 +76,7 @@ const getSingleQuestionController = async(req, res, next)=>{
   }
 }
 
-const assessAnswerAgainstQuestionController = async(req, res, next)=>{
+export const assessAnswerAgainstQuestionController = async(req, res, next)=>{
   try {
     const {questionHash} = req.params;
     const {answerText} = req.body;
@@ -100,7 +100,7 @@ const assessAnswerAgainstQuestionController = async(req, res, next)=>{
   }
 }
 
-const generateQuestionDraftCoachController = async (req, res, next) =>{
+export const generateQuestionDraftCoachController = async (req, res, next) =>{
   try {
     const {title, content} = req.body;
     const data = await generateQuestionDraftCoachService({title, content});

@@ -112,7 +112,7 @@ export const createQuestionWithVectorService = async payload =>{
  }
 
 
-const getQuestionService = async filters =>{
+export const getQuestionService = async filters =>{
     const normalizedLimit = 100;
     const sortColumn = `Q.created_at`;
     const normalizeSortOrder = `DESC`;
@@ -169,7 +169,7 @@ const getQuestionService = async filters =>{
     }
 }
 
-const searchQuestionSemanticService = async({query, k=5, threshold})=>{
+export const searchQuestionSemanticService = async({query, k=5, threshold})=>{
     const sourceText = normalizeQuestionText({title:query});
     const vectorConfig = getVectorConfig();
     const searchThreshold = 
@@ -192,7 +192,7 @@ const searchQuestionSemanticService = async({query, k=5, threshold})=>{
 }
 
 
-const getSingleQuestionService = async ({questionHash, includeAnswer = true})=>{
+export const getSingleQuestionService = async ({questionHash, includeAnswer = true})=>{
     const normalizedLimit = 100;
 
     const questionSql = `

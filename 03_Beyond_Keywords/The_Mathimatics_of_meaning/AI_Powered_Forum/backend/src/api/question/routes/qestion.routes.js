@@ -1,7 +1,7 @@
 import express from 'express'
-import { createQuestionController, getQuestionController } from '../controller/question.controller';
+import { createQuestionController, getQuestionController, getSingleQuestionController, assessAnswerAgainstQuestionController, generateQuestionDraftCoachController } from '../controller/question.controller';
 import {authenticateUser} from '../middleware/authentication.js'
-import { getQuestionValidation, searchSemanticQuestionValidation } from './question/validation/question.validation.js';
+import { getQuestionValidation, searchSemanticQuestionValidation, getSingleQuestionValidation } from './question/validation/question.validation.js';
 
 const questionRouter = express.Router();
 
