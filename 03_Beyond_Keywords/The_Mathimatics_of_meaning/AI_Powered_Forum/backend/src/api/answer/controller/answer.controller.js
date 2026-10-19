@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-
+import { createAnswerService } from "../service/answer.service";
 export const createAnswerController = async (req, res, next)=>{
     try {
         const {questionId, content} = req.body;
@@ -19,6 +19,6 @@ export const createAnswerController = async (req, res, next)=>{
 }
 
 export const getAnswerController = async(req, res, next)=>{
-    
+
 }
 
