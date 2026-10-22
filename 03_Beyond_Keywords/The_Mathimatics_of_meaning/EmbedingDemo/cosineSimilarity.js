@@ -2,9 +2,9 @@ import "dotenv/config";
 import { GoogleGenAI } from "@google/genai";
 import { response } from "express";
 
-// const ai = new GoogleGenAI({
-//   apiKey: process.env.GEMINI_API_KEY,
-// });
+const ai = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
 
 const cosineSimilarity = (vecA, vecB)=>{
     let dotProduct = 0;
@@ -23,11 +23,42 @@ const cosineSimilarity = (vecA, vecB)=>{
 
     }
     const similarity = dotProduct/(Math.sqrt(magnitudeA) * Math.sqrt(magnitudeB));
-    console.log(similarity)
+    return similarity;
 }
 
-const vector1 = [1,2];
-const vector2 = [2,4];
+const similarityText = async()=>{
+    const Text1 = "My name is Jafar.";
+    const Text2 = "My name is Jafar.";
+    const Text3 = "China is the largest population country."
 
-cosineSimilarity(vector1, vector2);
+    const result1 = await ai.models.embedContent({
+        model:'gemini-embedding-2',
+        contents:Text1,
+        config:{
+            taskType:'RETRIEVAL_DOCUMENT',
+        }
+    });
+    const result2 = await ai.models.embedContent({
+        model:'gemini-embedding-2',
+        contents:Text2,
+        config:{
+            taskType:'RETRIEVAL_DOCUMENT',
+        }
+    });
+    const result3 = await ai.models.embedContent({
+        model:'gemini-embedding-2',
+        contents:Text3,
+        config:{
+            taskType:'RETRIEVAL_DOCUMENT',
+        }
+    });
 
+    const v1andv2 = cosineSimilarity(result1.embeddings[0].values, result2.embeddings[0].values);
+    console.log("v1andv2: " + v1andv2);
+
+    const v1andv3 = cosineSimilarity(result1.embeddings[0].values, result3.embeddings[0].values);
+    console.log("v1andv2: " + v1andv3);
+
+}
+
+similarityText();
