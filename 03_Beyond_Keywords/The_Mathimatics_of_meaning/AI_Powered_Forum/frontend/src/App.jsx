@@ -1,9 +1,9 @@
+import Landing from './Pages/Landing/Landing';
 
 function App() {
-
   return (
     <>
-      <h1>Evangadi Forum</h1>
+      <Landing/>
     </>
   )
 }

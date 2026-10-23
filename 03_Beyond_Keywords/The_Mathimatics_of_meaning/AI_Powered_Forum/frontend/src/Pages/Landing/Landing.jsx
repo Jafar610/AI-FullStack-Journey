@@ -1,4 +1,4 @@
-
+import styles from './Landing.module.css';
 function Landing() {
   return (
     <div className={styles.landing}>
@@ -11,7 +11,7 @@ function Landing() {
             aria-label='Evangadi Forum home'
           >
             <span className={styles.landing__brandMark} aria-hidden>
-              <MessageSquare size={20} strokeWidth={2} />
+              {/* <MessageSquare size={20} strokeWidth={2} /> */}
             </span>
             <span className={styles.landing__brandText}>
               <span className={styles.landing__brandName}>Evangadi Forum</span>
@@ -32,7 +32,7 @@ function Landing() {
             <button
               type='button'
               className={styles.landing__navLink}
-              onClick={scrollToCourseRag}
+            //   onClick={scrollToCourseRag}
             >
               Course RAG
             </button>
@@ -40,13 +40,13 @@ function Landing() {
             <button
               type='button'
               className={styles.landing__navLink}
-              onClick={scrollToHowItWorks}
+            //   onClick={scrollToHowItWorks}
             >
               How it works
             </button>
           </nav>
 
-          <div className={styles.landing__headerActions}>
+          {/* <div className={styles.landing__headerActions}>
             {isAuthenticated ? (
               <button
                 type='button'
@@ -74,7 +74,7 @@ function Landing() {
                 </button>
               </>
             )}
-          </div>
+          </div> */}
         </div>
       </header>
 
