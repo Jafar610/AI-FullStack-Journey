@@ -78,10 +78,45 @@ function Landing() {
         </div>
       </header>
 
+    {/* Main Section startpoint */}
     
 
 
 
+    {/* Main Section endpoint */}
+
+     {/* Footer */}
+      <footer className={styles.landing__footer}>
+             <div className={styles.landing__footerInner}>
+               <div>
+                 <p className={styles.landing__footerBrand}>Evangadi Forum</p>
+                 <p className={styles.landing__footerMeta}>
+                   © {new Date().getFullYear()} · Learner-led Q&A
+                 </p>
+               </div>
+               <div className={styles.landing__footerLinks}>
+                 <button
+                   type='button'
+                   className={styles.landing__footerLink}
+                   onClick={() => navigate('/auth')}
+                 >
+                   Sign in
+                 </button>
+                 <span className={styles.landing__footerDot} aria-hidden>
+                   ·
+                 </span>
+                 <a href='#' className={styles.landing__footerLinkAnchor}>
+                   Privacy
+                 </a>
+                 <span className={styles.landing__footerDot} aria-hidden>
+                   ·
+                 </span>
+                 <a href='#' className={styles.landing__footerLinkAnchor}>
+                   Terms
+                 </a>
+               </div>
+             </div>
+           </footer>
 
     </div>
   )
